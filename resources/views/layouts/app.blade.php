@@ -80,7 +80,7 @@
                 </div>
             </div>
         </nav>
-
+        @include('mensagens')
         @yield('content')
     </div>
 

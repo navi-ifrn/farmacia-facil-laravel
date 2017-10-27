@@ -1,5 +1,8 @@
 ```sh
+$ cp .env.example .env
 $ touch database/database.sqlite
+$ ./artisan key:generate
+
 
 $ ./artisan make:auth
 

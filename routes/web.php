@@ -16,7 +16,7 @@ Auth::routes();
 Route::get('/', 'HomeController@index');
 Route::post('/adicionar-ao-carrinho/{id}', 'HomeController@adicionarAoCarrinho')->name('adicionar-ao-carrinho');
 Route::post('/remover-do-carrinho/{id}', 'HomeController@removerDoCarrinho')->name('remover-do-carrinho');
-Route::get('finalizar')->name('finalizar');
+Route::post('finalizar')->name('finalizar');
 
 
 Route::resource('laboratorios', 'LaboratorioController');

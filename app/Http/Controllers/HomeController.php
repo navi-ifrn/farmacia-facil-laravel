@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\EstoqueInsuficienteExeption;
 use App\Laboratorio;
 use App\Medicamento;
 use Illuminate\Http\Request;
@@ -19,6 +20,14 @@ class HomeController extends Controller
         $this->middleware('auth');
     }
 
+    private function iniciarCarrinho()
+    {
+        if(!session()->has('carrinho'))
+        {
+            session()->put('carrinho', []);
+        }
+    }
+
     /**
      * Show the application dashboard.
      *
@@ -26,6 +35,7 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
+        $this->iniciarCarrinho();
 
         $carrinho = session()->get('carrinho');
 
@@ -60,9 +70,10 @@ class HomeController extends Controller
     public function removerDoCarrinho(Request $request, $id)
     {
         $carrinho = $request->session()->get('carrinho');
+        $item = $carrinho[$id]['medicamento'];
         unset($carrinho[$id]);
         $request->session()->put('carrinho', $carrinho);
-        return redirect('/');
+        return redirect('/')->with('success', "Medicamento {$item->nome} removido com sucesso");
 
     }
 
@@ -71,9 +82,16 @@ class HomeController extends Controller
 
         $this->validate($request, ['quantidade' => ['required']]);
         $item = Medicamento::findOrFail($id);
+        $quantidade = (int) $request->get('quantidade');
+        if($item->estoque < $quantidade)
+        {
+            throw new EstoqueInsuficienteExeption('O medicamento ' . $item->nome . ' possui apenas ' . $item->estoque . ' unidades em estoque');
+        }
+
         $carrinho = $request->session()->get('carrinho');
-        $carrinho[$id] = ['medicamento' => $item, 'quantidade' => $request->get('quantidade'), 'valor_unitario' => $item->valor_de_venda];
+        $carrinho[$id] = ['medicamento' => $item, 'quantidade' => $quantidade, 'valor_unitario' => $item->valor_de_venda];
         $request->session()->put('carrinho', $carrinho);
-        return redirect('/');
+        return redirect('/')->with('success', "Medicamento {$item->nome} adicionado com sucesso");
+
     }
 }
