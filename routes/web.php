@@ -16,7 +16,7 @@ Auth::routes();
 Route::get('/', 'HomeController@index');
 Route::post('/adicionar-ao-carrinho/{id}', 'HomeController@adicionarAoCarrinho')->name('adicionar-ao-carrinho');
 Route::post('/remover-do-carrinho/{id}', 'HomeController@removerDoCarrinho')->name('remover-do-carrinho');
-Route::post('finalizar')->name('finalizar');
+Route::get('finalizar', 'HomeController@finalizar')->name('finalizar');
 
 
 Route::resource('laboratorios', 'LaboratorioController');
@@ -26,6 +26,7 @@ Route::resource('laboratorios', 'LaboratorioController');
 //    Route::resources('laboratorios', 'LaboratorioController');
 //});
 //
+
 Route::resource('medicamentos', 'MedicamentoController');
-Route::resource('vendas', 'VendaController');
+Route::resource('vendas', 'VendaController')->only(['index']);
 Route::resource('usuarios', 'UserController');
