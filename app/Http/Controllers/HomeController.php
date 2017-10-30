@@ -121,7 +121,7 @@ class HomeController extends Controller
                 'quantidade' => $quantidade,
                 'valor_unitario' => $valor_unitario
             ];
-            
+
             $item['medicamento']->estoque = $item['medicamento']->estoque - $quantidade;
             $item['medicamento']->save();
         }

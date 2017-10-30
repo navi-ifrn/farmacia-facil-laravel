@@ -18,5 +18,8 @@ $ ./artisan make:model -m Estoque
 $ ./artisan make:controller EstoqueController --resource
 $ ./artisan migrate
 
+$ ./artisan make:model -m Venda
+$ ./artisan make:controller VendaController
 
+$ ./artisan make:migration create_table_medicamento_venda --create=medicamento_venda
 ```
