@@ -17,6 +17,10 @@ class Medicamento extends Model
 
     protected $fillable = ['nome', 'bula', 'valor_compra', 'porcentagem_lucro', 'tipo', 'estoque', 'laboratorio_id'];
 
+    protected $casts = [
+        'estoque' => 'integer',
+    ];
+
     public function getValorVendaAttribute()
     {
         return $this->valor_compra + ($this->valor_compra * ($this->porcentagem_lucro / 100));
